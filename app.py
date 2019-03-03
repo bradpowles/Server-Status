@@ -22,11 +22,7 @@ results = Results()
 
 @app.route("/", methods=["GET"])
 def display_returned_statuses():
-    return render_template(
-        'returned_statuses.html',
-        returned_statuses=results.get(),
-        last_update_time="temp string cause haven't done this yet"
-        )
+    return render_template('returned_statuses.html', returned_statuses=results.get())
 
 
 if __name__ == '__main__':

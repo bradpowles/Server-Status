@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+<table>
+    <tr>
+        <th>Org</th>
+        <th>URL</th>
+        <th>Code</th>
+    </tr>
+    {% for org in returned_statuses %}
+        {% for url in returned_statuses[org] %}
+            <tr>
+                <td>{{ org }}</td>
+                <td>{{ url }}</td>
+                {% if returned_statuses[org][url] == '200' %}
+                    <td style="color:green">{{ returned_statuses[org][url] }}</td>
+                {% else %}
+                    <td style="color:red">{{ returned_statuses[org][url] }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+{% endblock %}
