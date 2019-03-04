@@ -26,6 +26,16 @@ class Updater(threading.Thread):
 
         super(Updater, self).__init__()
 
+    def __settings_handler(self, settings):
+        try:
+            self.__to_check = settings["servers"]
+            self.__siteDown_string = settings["offline_text"]
+            self.__refresh_interval = settings["refresh_interval"]
+        except KeyError:
+            self.__to_check = {"Default": ["https://broken.config.file"]}
+            self.__siteDown_string = "503"
+            self.__refresh_interval = 60
+
     @staticmethod
     def __is_reachable(url):
         try:
@@ -37,16 +47,6 @@ class Updater(threading.Thread):
             print("Error in url: Not Valid!")
             print("Please check all URLs are valid.")
             return False
-
-    def __settings_handler(self, settings):
-        try:
-            self.__to_check = settings["servers"]
-            self.__siteDown_string = settings["offline_text"]
-            self.__refresh_interval = settings["refresh_interval"]
-        except KeyError:
-            self.__to_check = {"Default": ["https://broken.config.file"]}
-            self.__siteDown_string = "503"
-            self.__refresh_interval = 60
 
     def __get_status_code(self, url):
         try:
