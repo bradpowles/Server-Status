@@ -4,45 +4,49 @@ import requests
 from time import sleep
 from datetime import datetime
 from urllib.parse import urlparse
+from pymongo import MongoClient
 
 
-class Results:
+class DB:
+    def __init__(self, url, name):
+        self.__db = self.__conn(url, name)
 
-    def __init__(self):
-        self.__returned_statuses = {}
-        self.__time = "never"
+    @staticmethod
+    def __conn(url, name):
+        return MongoClient(url)[name]
 
-    def get(self):
-        return self.__returned_statuses
+    def getSettings(self):
+        settings = self.__db["settings"].find_one()
+        return settings["refresh_interval"], settings["offline_text"], settings["servers"]
 
-    def set(self, statuses):
-        self.__returned_statuses = statuses
-
-    def set_time(self):
-        self.__time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-
-    def get_time(self):
-        return self.__time
+    def appendStatus(self, group, name, status, time):
+        status = {
+            "group": group,
+            "name": name,
+            "status_code": status,
+            "time": {
+                "year": time.strftime("%Y"),
+                "month": time.strftime("%m"),
+                "day": time.strftime("%d"),
+                "hour": time.strftime("%H"),
+                "minute": time.strftime("%M"),
+                "second": time.strftime("%S")
+            }
+        }
+        status_id = self.__db["status"].insert_one(status).inserted_id
+        try:
+            self.__db["latest"].update({}, {"$set": {"latest": status_id}})
+        except TypeError:
+            self.__db["latest"].insert_one({"latest": "none"})
 
 
 class Updater(threading.Thread):
 
-    def __init__(self, settings, results_store, stop):
-        self.__settings_handler(settings)
-        self.__results = results_store
+    def __init__(self, db, stop):
         self.__thread_stop_event = stop
-
+        self.__db = DB(db["url"], db["collection"])
+        self.__refresh_interval, self.__siteDown_string, self.__servers = self.__db.getSettings()
         super(Updater, self).__init__()
-
-    def __settings_handler(self, settings):
-        try:
-            self.__to_check = settings["servers"]
-            self.__siteDown_string = settings["offline_text"]
-            self.__refresh_interval = settings["refresh_interval"]
-        except KeyError:
-            self.__to_check = {"Default": ["https://broken.config.file"]}
-            self.__siteDown_string = "503"
-            self.__refresh_interval = 60
 
     @staticmethod
     def __is_reachable(url):
@@ -70,13 +74,9 @@ class Updater(threading.Thread):
             return self.__siteDown_string
 
     def __update_servers(self):
-        statuses = {}
-        for org, urls in self.__to_check.items():
-            statuses[org] = {}
+        for org, urls in self.__servers.items():
             for url in urls:
-                statuses[org][url] = self.__check_single_url(url)
-        self.__results.set(statuses=statuses)
-        self.__results.set_time()
+                self.__db.appendStatus(org, url, self.__check_single_url(url), datetime.now())
 
     def run(self):
         while not self.__thread_stop_event.isSet():
