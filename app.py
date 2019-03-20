@@ -75,7 +75,11 @@ def index():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('returned_statuses.html', user=current_user, returned_statuses=results.get())
+    return render_template('returned_statuses.html',
+                           user=current_user,
+                           returned_statuses=results.get(),
+                           time=results.get_time()
+                           )
 
 
 thread = Thread()

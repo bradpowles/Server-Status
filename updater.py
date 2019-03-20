@@ -2,6 +2,7 @@ import threading
 import socket
 import requests
 from time import sleep
+from datetime import datetime
 from urllib.parse import urlparse
 
 
@@ -9,12 +10,19 @@ class Results:
 
     def __init__(self):
         self.__returned_statuses = {}
+        self.__time = "never"
 
     def get(self):
         return self.__returned_statuses
 
     def set(self, statuses):
         self.__returned_statuses = statuses
+
+    def set_time(self):
+        self.__time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+
+    def get_time(self):
+        return self.__time
 
 
 class Updater(threading.Thread):
@@ -68,6 +76,7 @@ class Updater(threading.Thread):
             for url in urls:
                 statuses[org][url] = self.__check_single_url(url)
         self.__results.set(statuses=statuses)
+        self.__results.set_time()
 
     def run(self):
         while not self.__thread_stop_event.isSet():
