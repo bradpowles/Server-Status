@@ -78,7 +78,8 @@ def dashboard():
     return render_template('returned_statuses.html',
                            user=current_user,
                            returned_statuses=results.get(),
-                           time=results.get_time()
+                           time=results.get_time(),
+                           autoUpdate=request.args.get("update", False, bool)
                            )
 
 

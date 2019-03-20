@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
     <p><i>Last Updated : {{ time }}</i></p>
+    <button id="refresh" onclick="toggleRefresh()">Refresh: {% if autoUpdate %}On{% else %}Off{% endif %}</button>
+    <br>
+
     <table>
         <tr>
             <th>Org</th>
@@ -21,4 +24,6 @@
             {% endfor %}
         {% endfor %}
     </table>
+
+    <script src="{{ url_for('static', filename='js/refresh.js') }}"></script>
 {% endblock %}
