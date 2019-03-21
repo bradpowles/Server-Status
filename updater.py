@@ -26,11 +26,7 @@ class DB:
             "status_code": status,
             "time": time.isoformat()
         }
-        status_id = self.__db["status"].insert_one(status).inserted_id
-        try:
-            self.__db["latest"].update({}, {"$set": {"latest": status_id}})
-        except TypeError:
-            self.__db["latest"].insert_one({"latest": "none"})
+        return self.__db["status"].insert_one(status).inserted_id
 
 
 class Updater(threading.Thread):

@@ -10,8 +10,7 @@ class DB:
         return MongoClient(url)[name]
 
     def selectMostRecent(self):
-        latest = self.__db["latest"].find_one()
-        return self.__db["status"].find_one({"_id": latest["latest"]})
+        return self.__db["status"].find_one({}).sort('time', DESCENDING)
 
     def selectRecent(self):
         servers = self.__db["settings"].find_one()["servers"]
