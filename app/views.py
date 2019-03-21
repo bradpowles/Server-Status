@@ -1,6 +1,6 @@
 from flask import render_template, redirect, flash, request, url_for
 from flask_login import login_required, current_user, login_user, logout_user
-from app import app, login, User, users
+from app import app, login, User, users, db
 
 
 @login.user_loader
@@ -55,7 +55,7 @@ def index():
 def dashboard():
     return render_template('returned_statuses.html',
                            user=current_user,
-                           returned_statuses={},
+                           returned_statuses=db.selectRecent(),
                            time=0,
                            autoUpdate=request.args.get("update", False, bool)
                            )

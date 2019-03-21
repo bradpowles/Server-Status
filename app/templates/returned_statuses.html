@@ -15,10 +15,10 @@
                 <tr>
                     <td>{{ org }}</td>
                     <td>{{ url }}</td>
-                    {% if returned_statuses[org][url] == '200' %}
-                        <td style="color:green">{{ returned_statuses[org][url] }}</td>
+                    {% if returned_statuses[org][url]["status_code"] == '200' %}
+                        <td style="color:green">200</td>
                     {% else %}
-                        <td style="color:red">{{ returned_statuses[org][url] }}</td>
+                        <td style="color:red">{{ returned_statuses[org][url]["status_code"] }}</td>
                     {% endif %}
                 </tr>
             {% endfor %}

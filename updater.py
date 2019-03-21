@@ -24,14 +24,7 @@ class DB:
             "group": group,
             "name": name,
             "status_code": status,
-            "time": {
-                "year": time.strftime("%Y"),
-                "month": time.strftime("%m"),
-                "day": time.strftime("%d"),
-                "hour": time.strftime("%H"),
-                "minute": time.strftime("%M"),
-                "second": time.strftime("%S")
-            }
+            "time": time.isoformat()
         }
         status_id = self.__db["status"].insert_one(status).inserted_id
         try:
