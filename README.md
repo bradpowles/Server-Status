@@ -2,13 +2,13 @@
 
 A program using Python Flask to display the status code's of provided websites.
 
-##Prerequisites
+## Prerequisites
 
 - Python 3.6+
 - requirements.txt
 - MongoDB - Running without authentication
 
-##Installation Instructions
+## Installation Instructions
 
 Edit the app/config.py to reflect the url to your MongoDB
 ```python
