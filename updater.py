@@ -17,7 +17,7 @@ class DB:
 
     def getSettings(self):
         settings = self.__db["settings"].find_one()
-        return settings["refresh_interval"], settings["offline_text"], settings["servers"]
+        return settings["refresh_interval"], settings["servers"]
 
     def appendStatus(self, group, name, status, time):
         status = {
@@ -34,7 +34,8 @@ class Updater(threading.Thread):
     def __init__(self, db_host, db_collection, stop):
         self.__thread_stop_event = stop
         self.__db = DB(db_host, db_collection)
-        self.__refresh_interval, self.__siteDown_string, self.__servers = self.__db.getSettings()
+        self.__siteDown_string = "Offline"
+        self.__refresh_interval, self.__servers = self.__db.getSettings()
         super(Updater, self).__init__()
 
     @staticmethod
