@@ -53,9 +53,12 @@ def index():
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    status, updated = db.selectRecent()
+    time = updated.split("T")
+    time = "{0[2]}/{0[1]}/{0[0]} {1}".format(time[0].split("-"), time[1].split(".")[0])
     return render_template('returned_statuses.html',
                            user=current_user,
-                           returned_statuses=db.selectRecent(),
-                           time=0,
+                           returned_statuses=status,
+                           time=time,
                            autoUpdate=request.args.get("update", False, bool)
                            )

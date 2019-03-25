@@ -15,10 +15,12 @@ class DB:
     def selectRecent(self):
         servers = self.__db["settings"].find_one()["servers"]
         recent = {}
+        time = 0
         for group in servers:
             recent[group] = {}
             for name in servers[group]:
                 for doc in self.__db["status"].find({"group": group, "name": name}).sort('time', DESCENDING):
                     recent[group][name] = doc
+                    time = doc["time"]
                     break
-        return recent
+        return recent, time
