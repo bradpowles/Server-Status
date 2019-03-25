@@ -31,9 +31,9 @@ class DB:
 
 class Updater(threading.Thread):
 
-    def __init__(self, db, stop):
+    def __init__(self, db_host, db_collection, stop):
         self.__thread_stop_event = stop
-        self.__db = DB(db["url"], db["collection"])
+        self.__db = DB(db_host, db_collection)
         self.__refresh_interval, self.__siteDown_string, self.__servers = self.__db.getSettings()
         super(Updater, self).__init__()
 
