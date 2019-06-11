@@ -17,6 +17,8 @@ function updateTime() {
     xhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
        document.getElementById("time").innerHTML = "Last Updated: " + this.responseText;
+      } else {
+          console.log("Error: Connecting to API.")
       }
     };
     xhttp.open("GET", "api/time", true);
@@ -43,6 +45,8 @@ function updateStatus() {
                table.innerHTML += tr;
            }
        }
+      } else {
+          console.log("Error: Connecting to API.")
       }
     };
     xhttp.open("GET", "api/status/current", true);
