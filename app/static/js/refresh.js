@@ -28,7 +28,6 @@ function updateStatus() {
     xhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
        let data = JSON.parse(this.responseText);
-       console.log(data);
        while(table.hasChildNodes()) {table.removeChild(table.firstChild)}
        table.innerHTML += "<tr><th>Org</th><th>URL</th><th>Code</th></tr>";
        for (let org in data) {
