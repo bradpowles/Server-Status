@@ -1,3 +1,4 @@
+import json
 from app import app, db
 
 
@@ -12,4 +13,4 @@ def time():
 @app.route('/api/status/current', methods=['GET'])
 def status_current():
     status, updated = db.selectRecent()
-    return status
+    return json.dumps(status)
