@@ -31,15 +31,15 @@ function updateStatus() {
       if (this.readyState === 4 && this.status === 200) {
        let data = JSON.parse(this.responseText);
        while(table.hasChildNodes()) {table.removeChild(table.firstChild)}
-       table.innerHTML += "<tr><th>Org</th><th>URL</th><th>Code</th></tr>";
+       table.innerHTML += "<tr><th>Org</th><th>URL</th><th>Status</th></tr>";
        for (let org in data) {
            for (let url in data[org]) {
                let tr = "<tr>";
                tr += "<td>" + data[org][url].group + "</td><td>" + data[org][url].name + "</td>";
-               if (data[org][url].status_code === "200") {
-                   tr += "<td style=\"color:green\">" + data[org][url].status_code + "</td>";
+               if (data[org][url].status === "up") {
+                   tr += "<td style=\"color:green\">" + data[org][url].status + "</td>";
                } else {
-                 tr += "<td style=\"color:red\">" + data[org][url].status_code + "</td>";
+                 tr += "<td style=\"color:red\">" + data[org][url].status + "</td>";
                }
                tr += "</tr>";
                table.innerHTML += tr;

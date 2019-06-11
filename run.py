@@ -12,3 +12,5 @@ if not thread.isAlive():
     thread.start()
 
 app.run()
+
+# TODO: Change Status to up / down for uniformity with applications

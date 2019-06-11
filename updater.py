@@ -23,7 +23,7 @@ class DB:
         status = {
             "group": group,
             "name": name,
-            "status_code": status,
+            "status": status,
             "time": time.isoformat()
         }
         return self.__db["status"].insert_one(status).inserted_id
@@ -59,9 +59,9 @@ class Updater(threading.Thread):
 
     def __check_single_url(self, url):
         if self.__is_reachable(urlparse(url).hostname):
-            return str(self.__get_status_code(url))
-        else:
-            return self.__siteDown_string
+            if self.__get_status_code(url) == 200:
+                return "up"
+        return "down"
 
     def __update_servers(self):
         for org, urls in self.__servers.items():

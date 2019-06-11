@@ -8,17 +8,17 @@
         <tr>
             <th>Org</th>
             <th>URL</th>
-            <th>Code</th>
+            <th>Status</th>
         </tr>
         {% for org in returned_statuses %}
             {% for url in returned_statuses[org] %}
                 <tr>
                     <td>{{ org }}</td>
                     <td>{{ url }}</td>
-                    {% if returned_statuses[org][url]["status_code"] == '200' %}
-                        <td style="color:green">200</td>
+                    {% if returned_statuses[org][url]["status"] == 'up' %}
+                        <td style="color:green">{{ returned_statuses[org][url]["status"] }}</td>
                     {% else %}
-                        <td style="color:red">{{ returned_statuses[org][url]["status_code"] }}</td>
+                        <td style="color:red">{{ returned_statuses[org][url]["status"] }}</td>
                     {% endif %}
                 </tr>
             {% endfor %}
