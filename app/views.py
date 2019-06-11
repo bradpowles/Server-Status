@@ -1,6 +1,7 @@
 from flask import render_template, redirect, flash, request, url_for
 from flask_login import login_required, current_user, login_user, logout_user
-from app import app, login, User, users, db
+from app import app, login, User, users
+from .api import time, status_current
 
 
 @login.user_loader
@@ -53,12 +54,9 @@ def index():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    status, updated = db.selectRecent()
-    time = updated.split("T")
-    time = "{0[2]}/{0[1]}/{0[0]} {1}".format(time[0].split("-"), time[1].split(".")[0])
     return render_template('returned_statuses.html',
                            user=current_user,
-                           returned_statuses=status,
-                           time=time,
+                           returned_statuses=status_current(),
+                           time=time(),
                            autoUpdate=request.args.get("update", False, bool)
                            )

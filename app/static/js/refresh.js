@@ -13,10 +13,14 @@ function toggleRefresh() {
 
 setInterval(function() {
   if (button.innerText === "Refresh: On") {
-    if (window.location.href.indexOf("?update=") > -1) {
-      location.reload();
-    } else {
-      window.location.href = window.location.href + "?update=" + update;
-    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+       document.getElementById("time").innerHTML = "Last Updated: " + this.responseText;
+       console.log("Updated Time" + this.responseText)
+      }
+    };
+    xhttp.open("GET", "api/time", true);
+    xhttp.send();
   }
-}, 30000);
+}, 10000);
