@@ -1,20 +1,17 @@
 const button = document.getElementById("refresh");
 const table = document.getElementById("status_table");
-let update;
 
 function toggleRefresh() {
   if (button.innerText === "Refresh: On") {
     button.innerText = "Refresh: Off";
-    update = false
   } else {
     button.innerText = "Refresh: On";
-    update = true
   }
 }
 
 function updateTime() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
        document.getElementById("time").innerHTML = "Last Updated: " + this.responseText;
       } else if ((this.status === 200).not) {
@@ -26,8 +23,8 @@ function updateTime() {
 }
 
 function updateStatus() {
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
        let data = JSON.parse(this.responseText);
        while(table.hasChildNodes()) {table.removeChild(table.firstChild)}
@@ -55,7 +52,6 @@ function updateStatus() {
 
 setInterval(function() {
   if (button.innerText === "Refresh: On") {
-    updateTime();
-    updateStatus();
+    updateTime(); updateStatus();
   }
 }, 10000);
