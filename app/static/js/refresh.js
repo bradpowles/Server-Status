@@ -18,8 +18,8 @@ function updateTime() {
           console.log("Error: Connecting to API.")
       }
     };
-    xhttp.open("GET", "api/time", true);
-    xhttp.send();
+    request.open("GET", "api/time", true);
+    request.send();
 }
 
 function updateStatus() {
@@ -46,8 +46,8 @@ function updateStatus() {
           console.log("Error: Connecting to API.")
       }
     };
-    xhttp.open("GET", "api/status/current", true);
-    xhttp.send();
+    request.open("GET", "api/status/current", true);
+    request.send();
 }
 
 setInterval(function() {
