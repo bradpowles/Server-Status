@@ -29,8 +29,7 @@ function updateStatus() {
        for (let org in data) {
            for (let url in data[org]) {
                let row = document.getElementById(data[org][url].name).childNodes;
-               row[5].innerHTML = data[org][url].status;
-               row[5].className = data[org][url].status;
+               row[5].innerHTML = "<span class=\"status "+ data[org][url].status + "\"></span>";
            }
        }
       } else if ((this.status === 200).not) {

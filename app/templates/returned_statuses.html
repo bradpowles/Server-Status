@@ -15,7 +15,7 @@
                 <tr id="{{ url }}">
                     <td>{{ org }}</td>
                     <td>{{ url }}</td>
-                    <td class="{{ returned_statuses[org][url]["status"] }}">{{ returned_statuses[org][url]["status"] }}</td>
+                    <td><span class="status {{ returned_statuses[org][url]["status"] }}"></span></td>
                 </tr>
             {% endfor %}
         {% endfor %}
