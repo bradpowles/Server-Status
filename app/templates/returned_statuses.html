@@ -6,20 +6,16 @@
 
     <table id="status_table">
         <tr>
-            <th>Org</th>
+            <th>Organisation</th>
             <th>URL</th>
             <th>Status</th>
         </tr>
         {% for org in returned_statuses %}
             {% for url in returned_statuses[org] %}
-                <tr>
+                <tr id="{{ url }}">
                     <td>{{ org }}</td>
                     <td>{{ url }}</td>
-                    {% if returned_statuses[org][url]["status"] == 'up' %}
-                        <td style="color:green">{{ returned_statuses[org][url]["status"] }}</td>
-                    {% else %}
-                        <td style="color:red">{{ returned_statuses[org][url]["status"] }}</td>
-                    {% endif %}
+                    <td class="{{ returned_statuses[org][url]["status"] }}">{{ returned_statuses[org][url]["status"] }}</td>
                 </tr>
             {% endfor %}
         {% endfor %}

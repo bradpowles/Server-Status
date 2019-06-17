@@ -1,5 +1,4 @@
 const button = document.getElementById("refresh");
-const table = document.getElementById("status_table");
 
 function toggleRefresh() {
   if (button.innerText === "Refresh: On") {
@@ -27,19 +26,11 @@ function updateStatus() {
     request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
        let data = JSON.parse(this.responseText);
-       while(table.hasChildNodes()) {table.removeChild(table.firstChild)}
-       table.innerHTML += "<tr><th>Org</th><th>URL</th><th>Status</th></tr>";
        for (let org in data) {
            for (let url in data[org]) {
-               let tr = "<tr>";
-               tr += "<td>" + data[org][url].group + "</td><td>" + data[org][url].name + "</td>";
-               if (data[org][url].status === "up") {
-                   tr += "<td style=\"color:green\">" + data[org][url].status + "</td>";
-               } else {
-                 tr += "<td style=\"color:red\">" + data[org][url].status + "</td>";
-               }
-               tr += "</tr>";
-               table.innerHTML += tr;
+               let row = document.getElementById(data[org][url].name).childNodes;
+               row[5].innerHTML = data[org][url].status;
+               row[5].className = data[org][url].status;
            }
        }
       } else if ((this.status === 200).not) {
