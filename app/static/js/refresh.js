@@ -12,7 +12,7 @@ function updateTime() {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
-       document.getElementById("time").innerHTML = "Last Updated: " + this.responseText;
+       document.getElementById("time").innerHTML = "Last Updated : " + this.responseText;
       } else if ((this.status === 200).not) {
           console.log("Error: Connecting to API.")
       }
